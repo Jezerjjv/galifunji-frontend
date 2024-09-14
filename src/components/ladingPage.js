@@ -34,7 +34,7 @@ function LandingPage() {
                             <path d="M8 0a7 7 0 0 1 7 7 .5.5 0 0 1-.5.5H1.5A.5.5 0 0 1 1 7a7 7 0 0 1 7-7zM1.5 8h13a.5.5 0 0 1 .5.5v.5a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-.5a.5.5 0 0 1 .5-.5z" />
                             <path d="M6 9v3h4V9H6zm2 4v1h2v-1H8z" />
                         </svg>
-                        Galufunji
+                        Galifunji
                     </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                         <span className="navbar-toggler-icon"></span>
