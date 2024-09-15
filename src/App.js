@@ -1,9 +1,12 @@
 import './App.css';
-import LandingPage from './components/ladingPage';
+import Rutas from './routes/routes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 function App() {
   return (
     <>
-      <LandingPage />
+      <Rutas />
     </>
   );
 }
