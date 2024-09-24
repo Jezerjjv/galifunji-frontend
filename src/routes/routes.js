@@ -13,8 +13,6 @@ import PrivacyPolicy from "../components/legalInformation/privacyPolicy";
 import LegalAdvice from "../components/legalInformation/legalAdvice";
 import DetailMushrooms from "../components/mushrooms/detailMushrooms";
 import NotFound from "../components/common/404";
-import CategoryAdminPanel from "../components/admin/category";
-import MushroomsAdminPanel from "../components/admin/mushrooms";
 import Admin from "../components/admin/admin";
 import Prueba from "../components/prueba";
 const Rutas = () => {
@@ -27,8 +25,7 @@ const Rutas = () => {
                 <Route path="/privacy-policy" element={displayPageCommon(<PrivacyPolicy/>)} />
                 <Route path="/legal-advice" element={displayPageCommon(<LegalAdvice/>)} />
                 <Route path="/mushrooms/:id" element={displayPageCommon(<DetailMushrooms/>)} />
-                <Route path="/admin/category" element={displayPageCommon(<CategoryAdminPanel/>)} />
-                <Route path="/admin/mushrooms" element={displayPageCommon(<MushroomsAdminPanel/>)} />
+                <Route path="/prueba" element={displayPageCommon(<Prueba/>)} />
                 <Route path="/admin" element={displayPageCommon(<Admin/>)} />
                 <Route path="*" element={displayPageCommon(<NotFound/>)} />
             </Routes>

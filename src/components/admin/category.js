@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { getCategories, createCategory, deleteCategoryById, updateCategory } from '../../services/category';
+import { uploadImage } from '../../services/uploadImgBB';
 import { Loader } from '../common/loader/loader';
 import { Error } from '../common/error';
 
@@ -12,6 +13,7 @@ export default function CategoryAdminPanel() {
     const [editingId, setEditingId] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [imagen, setImagen] = useState(null);
 
     useEffect(() => {
         setLoading(true);
@@ -20,11 +22,11 @@ export default function CategoryAdminPanel() {
             setLoading(false);
         }).catch(error => {
             setLoading(false);
-            setError("Error fetching categories");
+            setError("Error fetching categories", error);
         });
     }, []);
 
-    const addCategory = (e) => {
+    const addCategory = async(e) => {
         e.preventDefault();
         if (newCategory.trim()) {
             if (editingId !== null) {
@@ -34,10 +36,13 @@ export default function CategoryAdminPanel() {
                 ));
                 setEditingId(null);
             } else {
-                createCategory({ nombre: newCategory });
-                setCategories([...categories, { id:+categories[categories.length-1].id+1, nombre: newCategory }]);
+                const url = await uploadImage(imagen);
+                var nextId = categories.length > 0 ? +categories[categories.length - 1].id + 1 : 1;
+                createCategory({ nombre: newCategory, url: url });
+                setCategories([...categories, { id:nextId, nombre: newCategory, url: url }]);
             }
             setNewCategory('');
+            setImagen(null);
         }
     };
 
@@ -58,10 +63,7 @@ export default function CategoryAdminPanel() {
         cat.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-
-
     const renderContent = () => {
-
         return (
             <div className="container mt-4 mb-4">
                 <h1 className="mb-4">Panel Administrativo - Categorías</h1>
@@ -80,6 +82,15 @@ export default function CategoryAdminPanel() {
                                             placeholder="Nombre de la categoría"
                                             value={newCategory}
                                             onChange={(e) => setNewCategory(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="mb-3">  
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            placeholder="Imagen de la categoría"
+                                            onChange={(e) => setImagen(e.target.files[0])}
                                             required
                                         />
                                     </div>
@@ -112,31 +123,45 @@ export default function CategoryAdminPanel() {
                                 {filteredCategories.length === 0 ? (
                                     <p className="text-muted">No hay categorías que coincidan con la búsqueda.</p>
                                 ) : (
-                                    <ul className="list-group">
-                                        {filteredCategories.map((category) => (
-                                            <li key={category.id} className="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>{category.id}</div>
-                                                <div>{category.nombre}</div>
-
-                                                <div>
-                                                    <button
-                                                        className="btn btn-sm btn-outline-primary me-2"
-                                                        onClick={() => editCategory(category.id)}
-                                                        title="Editar"
-                                                    >
-                                                        <i className="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-sm btn-outline-danger"
-                                                        onClick={() => deleteCategory(category.id)}
-                                                        title="Eliminar"
-                                                    >
-                                                        <i className="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <div className="table-responsive">
+                                        <table className="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nombre</th>
+                                                    <th>Imagen</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredCategories.map((category) => (
+                                                    <tr key={category.id}>
+                                                        <td>{category.id}</td>
+                                                        <td>{category.nombre}</td>
+                                                        <td>
+                                                            <img src={category.url} alt={category.nombre} className="img-thumbnail" style={{width: '100px', height: '100px', objectFit: 'cover'}} />
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                className="btn btn-sm btn-outline-primary me-2"
+                                                                onClick={() => editCategory(category.id)}
+                                                                title="Editar"
+                                                            >
+                                                                <i className="bi bi-pencil"></i>
+                                                            </button>
+                                                            <button
+                                                                className="btn btn-sm btn-outline-danger"
+                                                                onClick={() => deleteCategory(category.id)}
+                                                                title="Eliminar"
+                                                            >
+                                                                <i className="bi bi-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 )}
                             </div>
                         </div>

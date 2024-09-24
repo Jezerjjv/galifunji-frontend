@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import CategoryAdminPanel from './category';
 import MushroomsAdminPanel from './mushrooms';
-
+import HabitatAdminPanel from './habitat';
+import TypeHeadAdminPanel from './typeHead';
+import TypeFootAdminPanel from './typeFoot';
 export default function Component() {
     const [currentPage, setCurrentPage] = useState('home')
 
@@ -11,7 +13,14 @@ export default function Component() {
                 return <CategoryAdminPanel />
             case 'setas':
                 return <MushroomsAdminPanel />
-            case 'usuarios': <h1>proximamente</h1>
+            case 'habitat':
+                return <HabitatAdminPanel />
+            case 'typeHead':
+                return <TypeHeadAdminPanel />
+            case 'typeFoot':
+                return <TypeFootAdminPanel />
+            case 'usuarios': return <h1>Working on it, coming soon</h1>
+            break;
             default:
                 return (
                     <>
@@ -26,6 +35,9 @@ export default function Component() {
         { id: 'home', title: 'Panel Principal', icon: '🏠' },
         { id: 'categorias', title: 'Categorías', icon: '📁' },
         { id: 'setas', title: 'Setas', icon: '🍄' },
+        { id: 'habitat', title: 'Habitat', icon: ' 🌳' },
+        { id: 'typeHead', title: 'Tipo laminas', icon: ' 🌸' },
+        { id: 'typeFoot', title: 'Tipo pie', icon: ' 🦶' },
         { id: 'usuarios', title: 'Usuarios', icon: '👥' },
     ]
 

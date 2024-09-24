@@ -1,7 +1,7 @@
 
 export const addMushroom = async (mushroom) => {
     console.log(mushroom);
-    const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms`, {
+    await fetch(`${process.env.REACT_APP_API}api/mushrooms`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ export const getMushroomById = async (id) => {
 }; 
 
 export const setIsMagic = async (id, isMagic) => {
-    const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms/${id}/magic`, {
+    await fetch(`${process.env.REACT_APP_API}api/mushrooms/${id}/magic`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ export const setIsMagic = async (id, isMagic) => {
 }   
 
 export const setIsMedicinal = async (id, isMedicinal) => {
-    const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms/${id}/medicinal`, {
+    await fetch(`${process.env.REACT_APP_API}api/mushrooms/${id}/medicinal`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -42,18 +42,17 @@ export const setIsMedicinal = async (id, isMedicinal) => {
     });
 }   
 export const deleteMushroomById = async (id) => {
-    const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms/${id}`, {
+    await fetch(`${process.env.REACT_APP_API}api/mushrooms/${id}`, {
         method: 'DELETE'
     });
 }
 
 export const updateMushroom = async (mushroom) => {
-    console.log(mushroom);
-    const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms/${mushroom.id}`, {
+    await fetch(`${process.env.REACT_APP_API}api/mushrooms/${mushroom.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(mushroom)
     });
-}   
+} 

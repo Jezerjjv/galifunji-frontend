@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { setIsMagic, setIsMedicinal, getMushrooms, deleteMushroomById, addMushroom, updateMushroom } from '../../services/mushrooms';
+import { uploadImage } from '../../services/uploadImgBB';
 import { Loader } from '../common/loader/loader';
 import { Error } from '../common/error';
 import { getCategories } from '../../services/category';
-export default function Component() {
+import { getTypeHeads } from '../../services/typeHead';
+import { getTypeFoots } from '../../services/typeFoot';
+import { getHabitats } from '../../services/habitat';
 
+export default function Component() {
     const [editingMushroom, setEditingMushroom] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -16,22 +20,35 @@ export default function Component() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [categories, setCategories] = useState([]);
+    const [typeHeads, setTypeHeads] = useState([]);
+    const [typeFoots, setTypeFoots] = useState([]);
+    const [habitats, setHabitats] = useState([]);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        getCategories().then(data => {
-            setCategories(data);
-        }).catch(error => {
-            setLoading(false);
-            setError(error);
-        });
-        getMushrooms().then(data => {
-            setMushrooms(data);
-            setLoading(false);
-        }).catch(error => {
-            setLoading(false);
-            setError(error);
-            setLoading(false);
-        });
+        const fetchData = async () => {
+            try {
+                const [categoriesData, typeHeadsData, typeFootsData, habitatsData, mushroomsData] = await Promise.all([
+                    getCategories(),
+                    getTypeHeads(),
+                    getTypeFoots(),
+                    getHabitats(),
+                    getMushrooms()
+                ]);
+
+                setCategories(categoriesData);
+                setTypeHeads(typeHeadsData);
+                setTypeFoots(typeFootsData);
+                setHabitats(habitatsData);
+                setMushrooms(mushroomsData);
+            } catch (error) {
+                setError(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
     }, []);
 
     const handleEdit = (mushroom) => {
@@ -48,14 +65,24 @@ export default function Component() {
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setEditingMushroom(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
-    };
 
-    const handleSubmit = (e) => {
+    };
+    
+    const handleImageChange = (e) => {
+        const { files } = e.target;
+        setImages(files);
+    };
+    
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const uploadPromises = Array.from(images).map(image => uploadImage(image));
+        const uploadedUrls = await Promise.all(uploadPromises);
+        
         const mushroomToSubmit = {
             ...editingMushroom,
             magica: editingMushroom.magica || false,
-            medicinal: editingMushroom.medicinal || false
+            medicinal: editingMushroom.medicinal || false,
+            imagenes: uploadedUrls
         };
         if (isAdding) {
             var nextId = mushrooms.length > 0 ? mushrooms[mushrooms.length - 1].id + 1 : 1;
@@ -70,7 +97,7 @@ export default function Component() {
         setIsAdding(false);
     };
 
-    const handleMagicChange = async (field, id, checked) => {
+    const handleCheckboxChange = async (field, id, checked) => {
         try {
             if (field === "magic") {
                 await setIsMagic(id, checked);
@@ -138,10 +165,11 @@ export default function Component() {
                                 <tr>
                                     <th>ID</th>
                                     <th>Nombre</th>
+                                    <th>Nombre Científico</th>
                                     <th>Descripción</th>
                                     <th>Mágica</th>
                                     <th>Medicinal</th>
-                                    <th>Categoría ID</th>
+                                    <th>Categoría</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -150,19 +178,20 @@ export default function Component() {
                                     <tr key={mushroom.id}>
                                         <td>{mushroom.id}</td>
                                         <td>{mushroom.nombre}</td>
+                                        <td>{mushroom.nombre_cientifico}</td>
                                         <td>{mushroom.descripcion}</td>
                                         <td>
                                             <input
                                                 type="checkbox"
                                                 checked={mushroom.magica}
-                                                onChange={(e) => handleMagicChange("magic", mushroom.id, e.target.checked)}
+                                                onChange={(e) => handleCheckboxChange("magic", mushroom.id, e.target.checked)}
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 type="checkbox"
                                                 checked={mushroom.medicinal}
-                                                onChange={(e) => handleMagicChange("medicinal", mushroom.id, e.target.checked)}
+                                                onChange={(e) => handleCheckboxChange("medicinal", mushroom.id, e.target.checked)}
                                             />
                                         </td>
                                         <td>{mushroom.categoria_nombre}</td>
@@ -204,6 +233,12 @@ export default function Component() {
                             <input type="text" className="form-control" name="nombre" value={editingMushroom?.nombre || ''} onChange={handleChange} placeholder="Nombre" required />
                         </div>
                         <div className="mb-3">
+                            <input type="text" className="form-control" name="nombre_cientifico" value={editingMushroom?.nombre_cientifico || ''} onChange={handleChange} placeholder="Nombre Científico" required />
+                        </div>
+                        <div className="mb-3">
+                            <textarea className="form-control" name="datos_curiosos" value={editingMushroom?.datos_curiosos || ''} onChange={handleChange} placeholder="Datos Curiosos"></textarea>
+                        </div>
+                        <div className="mb-3">
                             <textarea className="form-control" name="descripcion" value={editingMushroom?.descripcion || ''} onChange={handleChange} placeholder="Descripción"></textarea>
                         </div>
                         <div className="mb-3">
@@ -238,16 +273,42 @@ export default function Component() {
                                 ))}
                             </select>
                         </div>
+                        <div className="mb-3">
+                            <select className="form-select" name="tipo_laminas_id" value={editingMushroom?.tipo_laminas_id || ''} onChange={handleChange} required>
+                                <option value="">Seleccione un tipo de cabezal</option>
+                                {typeHeads.map(typeHead => (
+                                    <option key={typeHead.id} value={typeHead.id}>{typeHead.nombre}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="mb-3">
+                            <select className="form-select" name="tipo_pie_id" value={editingMushroom?.tipo_pie_id || ''} onChange={handleChange} required>
+                                <option value="">Seleccione un tipo de pie</option>
+                                {typeFoots.map(typeFoot => (
+                                    <option key={typeFoot.id} value={typeFoot.id}>{typeFoot.nombre}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="mb-3">
+                            <select className="form-select" name="habitat_id" value={editingMushroom?.habitat_id || ''} onChange={handleChange} required>
+                                <option value="">Seleccione un hábitat</option>
+                                {habitats.map(habitat => (
+                                    <option key={habitat.id} value={habitat.id}>{habitat.nombre}</option>
+                                ))}
+                            </select>
+                        </div>
                         {isAdding && (
                             <>
                                 <div className="mb-3">
-                                    <input type="file" className="form-control" name="imagen" onChange={handleChange} placeholder="Imagen" required />
-                                </div>
-                                <div className="mb-3">
-                                    <input type="file" className="form-control" name="imagen2" onChange={handleChange} placeholder="Imagen" />
-                                </div>
-                                <div className="mb-3">
-                                    <input type="file" className="form-control" name="imagen3" onChange={handleChange} placeholder="Imagen" />
+                                    <input
+                                        type="file"
+                                        multiple
+                                        className="form-control"
+                                        name="imagenes"
+                                        onChange={handleImageChange}
+                                        accept="image/*"
+                                        required
+                                    />
                                 </div>
                             </>
                         )}

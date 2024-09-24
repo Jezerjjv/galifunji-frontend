@@ -12,7 +12,7 @@ export const getCategoryById = async (id) => {
 
 
 export const createCategory = async (category) => {
-    const response = await fetch(`${process.env.REACT_APP_API}api/categories`, {
+    await fetch(`${process.env.REACT_APP_API}api/categories`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ export const createCategory = async (category) => {
     
 
 export const updateCategory = async (id, category) => {
-    const response = await fetch(`${process.env.REACT_APP_API}api/categories/${id}`, {
+    await fetch(`${process.env.REACT_APP_API}api/categories/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ export const updateCategory = async (id, category) => {
 }
 
 export const deleteCategoryById = async (id) => {
-    const response = await fetch(`${process.env.REACT_APP_API}api/categories/${id}`, {
+     await fetch(`${process.env.REACT_APP_API}api/categories/${id}`, {
         method: 'DELETE'
     });
 }   
