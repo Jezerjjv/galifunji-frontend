@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 export const Mushrooms = ({ seta }) => {
     return (
-        <Link to={`/mushrooms/${seta.id}`}>
+        <Link to={`/mushrooms/${seta.id}`} style={{cursor: 'pointer', textDecoration: 'none'}}>
         <div className="col" style={{cursor: 'pointer'}}>
             <div className="card h-100">
                 <div className="card-img-container" style={{height: '200px', overflow: 'hidden'}}>

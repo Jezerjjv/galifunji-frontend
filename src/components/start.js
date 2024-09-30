@@ -4,7 +4,7 @@ import { getCategories } from '../services/category'
 import { GaleryMushrooms } from './mushrooms/galeryMushrooms'
 import { Loader } from './common/loader/loader'
 import { Error } from './common/error'
-
+import { Link } from 'react-router-dom';
 const Start = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [setas, setSetas] = useState([]);
@@ -52,7 +52,6 @@ const Start = () => {
     return (
       categories.length > 0 ?
         <div className="container my-5">
-          <h1 className="mb-4">Categorías de Setas</h1>
           <ul className="nav nav-tabs mb-4">
             {categories.map(category => (
               <li className="nav-item" key={category.id}>
@@ -75,6 +74,20 @@ const Start = () => {
 
   return (
     <>
+      <nav aria-label="breadcrumb" className='d-flex justify-content-between align-items-center mb-4'>
+        <ol className="breadcrumb" style={{alignItems: 'center', margin:"0px auto"}}>
+          <li className="breadcrumb-item" >
+            <Link to="/" className='link-breadcrumb' >
+              🏚 Inicio
+            </Link>
+          </li>
+          <li className="breadcrumb-item">
+            <Link to="/start" className='link-breadcrumb'>
+              🍄 Hongos
+            </Link>
+          </li>
+        </ol>
+      </nav>
       {loading ? <Loader /> : error ? <Error error={error} /> : renderMushrooms()}
     </>
   );

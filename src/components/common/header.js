@@ -23,15 +23,12 @@ function Header() {
                 Tipos de Setas
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><Link to="/tipos-setas/comestibles" className="dropdown-item">Setas Comestibles</Link></li>
-                <li><Link to="/tipos-setas/venenosas" className="dropdown-item">Setas Venenosas</Link></li>
-                <li><Link to="/tipos-setas/medicinales" className="dropdown-item">Setas Medicinales</Link></li>
-                <li><Link to="/tipos-setas/silvestres" className="dropdown-item">Setas Silvestres</Link></li>
-                <li><Link to="/tipos-setas/cultivadas" className="dropdown-item">Setas Cultivadas</Link></li>
+                <li><Link to="/magic-mushrooms" className="dropdown-item">Magicas</Link></li>
+                <li><Link to="/medicinal-mushrooms" className="dropdown-item">Medicinales</Link></li>
               </ul>
             </li>
             <li className="nav-item">
-              <Link to="/recetas" className="nav-link">Recetas</Link>
+              <Link to="/recipes" className="nav-link">Recetas</Link>
             </li>
             <li className="nav-item">
               <Link to="/guia-recoleccion" className="nav-link">Guía de Recolección</Link>

@@ -15,6 +15,10 @@ import DetailMushrooms from "../components/mushrooms/detailMushrooms";
 import NotFound from "../components/common/404";
 import Admin from "../components/admin/admin";
 import Prueba from "../components/prueba";
+import Recipes from "../components/recipes";
+import DetailRecipe from "../components/recipes/detailRecipe";
+import MagicMushrooms from "../components/magicMushrooms";
+import MedicinalMushrooms from "../components/medicinalMushrooms";
 const Rutas = () => {
     return (
         <Router>
@@ -27,6 +31,10 @@ const Rutas = () => {
                 <Route path="/mushrooms/:id" element={displayPageCommon(<DetailMushrooms/>)} />
                 <Route path="/prueba" element={displayPageCommon(<Prueba/>)} />
                 <Route path="/admin" element={displayPageCommon(<Admin/>)} />
+                <Route path="/recipes" element={displayPageCommon(<Recipes/>)} />
+                <Route path="/recipes/:id" element={displayPageCommon(<DetailRecipe/>)} />
+                <Route path="/magic-mushrooms" element={displayPageCommon(<MagicMushrooms/>)} />
+                <Route path="/medicinal-mushrooms" element={displayPageCommon(<MedicinalMushrooms/>)} />
                 <Route path="*" element={displayPageCommon(<NotFound/>)} />
             </Routes>
         </Router>

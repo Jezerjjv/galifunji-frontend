@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { setIsMagic, setIsMedicinal, getMushrooms, deleteMushroomById, addMushroom, updateMushroom } from '../../services/mushrooms';
+import { setIsMagic, setIsMedicinal, getMushroomsAll, deleteMushroomById, addMushroom, updateMushroom } from '../../services/mushrooms';
 import { uploadImage } from '../../services/uploadImgBB';
 import { Loader } from '../common/loader/loader';
 import { Error } from '../common/error';
@@ -33,7 +33,7 @@ export default function Component() {
                     getTypeHeads(),
                     getTypeFoots(),
                     getHabitats(),
-                    getMushrooms()
+                    getMushroomsAll()
                 ]);
 
                 setCategories(categoriesData);

@@ -16,6 +16,23 @@ export const getMushrooms = async () => {
     return data;
 }; 
 
+export const getMushroomsMagic = async () => {
+    const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms/magic`);
+    const data = await response.json();
+    return data;
+}; 
+
+export const getMushroomsMedicinal = async () => {
+    const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms/medicinal`);
+    const data = await response.json();
+    return data;
+}; 
+export const getMushroomsAll = async () => {
+    const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms/all`);
+    const data = await response.json();
+    return data;
+}; 
+
 export const getMushroomById = async (id) => {
     const response = await fetch(`${process.env.REACT_APP_API}api/mushrooms/${id}`);
     const data = await response.json();

@@ -4,6 +4,7 @@ import MushroomsAdminPanel from './mushrooms';
 import HabitatAdminPanel from './habitat';
 import TypeHeadAdminPanel from './typeHead';
 import TypeFootAdminPanel from './typeFoot';
+import Recipes from './recipes';
 export default function Component() {
     const [currentPage, setCurrentPage] = useState('home')
 
@@ -19,6 +20,8 @@ export default function Component() {
                 return <TypeHeadAdminPanel />
             case 'typeFoot':
                 return <TypeFootAdminPanel />
+            case 'recipes':
+                return <Recipes />
             case 'usuarios': return <h1>Working on it, coming soon</h1>
             break;
             default:
@@ -38,6 +41,7 @@ export default function Component() {
         { id: 'habitat', title: 'Habitat', icon: ' 🌳' },
         { id: 'typeHead', title: 'Tipo laminas', icon: ' 🌸' },
         { id: 'typeFoot', title: 'Tipo pie', icon: ' 🦶' },
+        { id: 'recipes', title: 'Recipes', icon: '🍽️' },
         { id: 'usuarios', title: 'Usuarios', icon: '👥' },
     ]
 
