@@ -23,7 +23,7 @@ const Recipes = () => {
 
     const renderContent = () => {
         if (recipes.length === 0) {
-            return <div>No se encontraron recetas</div>
+            return <div>No se encontraron recetas 🍽</div>
         }
         return (
             <>

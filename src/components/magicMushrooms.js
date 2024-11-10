@@ -36,7 +36,7 @@ const MagicMushrooms = () => {
                         <GaleryMushrooms setas={setas} />
                     </div>
                 </div>
-                : <h1 className='text-center my-5'>No hay setas 😅</h1>
+                : <h1 className='text-center my-5'>No hay setas 🍄</h1>
         )
     }
 

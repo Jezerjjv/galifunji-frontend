@@ -23,7 +23,8 @@ const Start = () => {
         setSetas(setasData);
         setActiveTab(categoriesData[0]?.id || null);
       } catch (error) {
-        setError(error);
+        setError(true);
+        console.log("entre");
       } finally {
         setLoading(false);
       }
@@ -40,7 +41,6 @@ const Start = () => {
       <div>
         <h2 className="mb-4">{category.nombre}</h2>
         <p>{category.descripcion}</p>
-        {console.log(setas.filter(seta => +seta.categoria_id === +activeTab))}
         <GaleryMushrooms setas={setas.filter(seta => +seta.categoria_id === +activeTab)} />
         <p className="mt-4">{category.advertencia}</p>
       </div>

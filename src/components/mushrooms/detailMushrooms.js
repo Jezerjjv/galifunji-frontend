@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import radicante from "../../assets/radicante.png"
 import { getMushroomById } from '../../services/mushrooms';
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';

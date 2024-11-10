@@ -5,6 +5,7 @@ import HabitatAdminPanel from './habitat';
 import TypeHeadAdminPanel from './typeHead';
 import TypeFootAdminPanel from './typeFoot';
 import Recipes from './recipes';
+import Activity from './activity';
 export default function Component() {
     const [currentPage, setCurrentPage] = useState('home')
 
@@ -22,8 +23,8 @@ export default function Component() {
                 return <TypeFootAdminPanel />
             case 'recipes':
                 return <Recipes />
-            case 'usuarios': return <h1>Working on it, coming soon</h1>
-            break;
+            case 'activity':
+                return <Activity />
             default:
                 return (
                     <>
@@ -42,7 +43,7 @@ export default function Component() {
         { id: 'typeHead', title: 'Tipo laminas', icon: ' 🌸' },
         { id: 'typeFoot', title: 'Tipo pie', icon: ' 🦶' },
         { id: 'recipes', title: 'Recipes', icon: '🍽️' },
-        { id: 'usuarios', title: 'Usuarios', icon: '👥' },
+        { id: 'activity', title: 'Actividades', icon: '🌳' },
     ]
 
     return (
@@ -52,7 +53,6 @@ export default function Component() {
             fontFamily: 'Arial, sans-serif',
             color: '#333',
         }}>
-            {/* Sidebar */}
             <nav style={{
                 width: '250px',
                 backgroundColor: '#2c3e50',
@@ -80,7 +80,6 @@ export default function Component() {
                 ))}
             </nav>
 
-            {/* Main content */}
             <main style={{
                 flex: 1,
                 padding: '20px',
